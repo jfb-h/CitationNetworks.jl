@@ -3,6 +3,10 @@ uuid = "d7d94378-5e3c-416e-832d-b996cc437655"
 authors = ["Jakob Hoffmann"]
 version = "0.1.0"
 
+[deps]
+LightGraphs = "093fc24a-ae57-5d10-9952-331d41423f4d"
+SimpleWeightedGraphs = "47aef6b3-ad0c-573a-a1e2-d07658019622"
+
 [compat]
 julia = "1"
 

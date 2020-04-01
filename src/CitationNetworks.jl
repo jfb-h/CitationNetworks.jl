@@ -1,6 +1,5 @@
 module CitationNetworks
 using LightGraphs#master
-const SP = LightGraphs.ShortestPaths
 using SimpleWeightedGraphs
 
 # change LG to 1.4 when available

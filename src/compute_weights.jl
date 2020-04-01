@@ -1,6 +1,7 @@
 
-get_sources(g) = vertices(g)[indegree(g) .== 0]
-get_sinks(g) = vertices(g)[outdegree(g) .== 0]
+get_sources(g::T) where T <: AbstractGraph = vertices(g)[indegree(g) .== 0]
+get_sinks(g::T)  where T <: AbstractGraph = vertices(g)[outdegree(g) .== 0]
+
 
 add_source_target! = function(g::SimpleDiGraph{T}) where T <: Integer
     sinks = get_sinks(g)

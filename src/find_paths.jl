@@ -1,52 +1,51 @@
 
-add_weights = function(g::SimpleDiGraph{T}, weights) where T <: Integer
+add_weights = function(g::SimpleDiGraph{T}, weights::Vector{U}) where T <: Integer where U <: Real
     from = [src(e) for e in edges(g)]
     to = [dst(e) for e in edges(g)]
     SimpleWeightedDiGraph(from, to, weights)
 end
 
-max_outneighbors = function(g, v)
+max_outneighbors = function(g::SimpleWeightedDiGraph{T}, v::T) where T <: Integer
   nb = outneighbors(g, v)
   w = weights(g)[v, nb]
   nb[w .== maximum(w)]
 end
 
-# This is most likely inefficient
-
-max_outweight = function(g, v)
+max_outweight = function(g::SimpleWeightedDiGraph{T}, v::T) where T <: Integer
   nb = outneighbors(g, v)
   length(nb) > 0 || return 0
   maximum(weights(g)[v, nb])
 end
 
-mainpath_forward_local = function(g)
+# This is most likely inefficient
+
+mainpath_forward_local = function(g::SimpleWeightedDiGraph{T}) where T <: Integer
   sources = get_sources(g)
   sinks = get_sinks(g)
 
-  add_vertex!(g)
-  t = vertices(g)[end]
-  for sink in sinks
-      add_edge!(g, sink, t)
-  end
-
   sw = [max_outweight(g, s) for s in sources]
-  mp = sources[sw .== maximum(sw)]
-  curr = copy(mp)
+  #mp_v = sources[sw .== maximum(sw)]
+  curr = sources[sw .== maximum(sw)]
+  mp_e = Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}()
 
-  while !all(curr .== t)
-    next = Vector{Int64}()
+  while !all([u in sinks for u in curr])
+    next = Vector{T}()
     for u in curr
-      u == t && continue
+      u in sinks && continue
       maxnb = max_outneighbors(g, u)
       append!(next, maxnb)
+      [push!(mp_e, Edge(u, nb)) for nb in maxnb]
     end
     curr = next
-    append!(mp, next)
+    #append!(mp_v, next)
   end
 
-  rem_vertex!(g, t)
-  return unique(mp[mp .!= t])
+  from = [src(e) for e in mp_e]
+  to = [dst(e) for e in mp_e]
+  weight = [get_weight(g, s, t) for (s, t) in zip(from, to)]
+  return (edges = mp_e, weights = weight)
 end
+
 
 # find_maxpath = function(g::SimpleWeightedDiGraph{T}) where T <: Integer
 #     SP.shortest_paths(g, -weights(g), SP.DistributedJohnson())

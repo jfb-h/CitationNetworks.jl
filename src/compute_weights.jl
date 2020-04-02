@@ -2,6 +2,11 @@
 get_sources(g::T) where T <: AbstractGraph = vertices(g)[indegree(g) .== 0]
 get_sinks(g::T)  where T <: AbstractGraph = vertices(g)[outdegree(g) .== 0]
 
+add_weights = function(g::SimpleDiGraph{T}, weights::Vector{U}) where T <: Integer where U <: Real
+    from = [src(e) for e in edges(g)]
+    to = [dst(e) for e in edges(g)]
+    SimpleWeightedDiGraph(from, to, weights)
+end
 
 add_source_target! = function(g::SimpleDiGraph{T}) where T <: Integer
     sinks = get_sinks(g)
@@ -42,8 +47,6 @@ end
 
 compute_weights_spc = function(g::SimpleDiGraph{T}; normalize = false) where T <: Integer
     add_source_target!(g)
-    #@assert sum(indegree(g) .== 0) == 1 # make sure graph is augmented with single source / target
-    #@assert sum(outdegree(g) .== 0) == 1
     vseqt = LightGraphs.Traversals.topological_sort(g)
 
     st = vseqt[[1, end]]
@@ -62,5 +65,5 @@ compute_weights_spc = function(g::SimpleDiGraph{T}; normalize = false) where T <
     end
 
     normalize && return val ./ total
-    return val
+    return (val = val, total = total)
 end

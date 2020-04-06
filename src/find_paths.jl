@@ -1,27 +1,21 @@
 
-max_outneighbors = function(g::SimpleWeightedDiGraph{T}, v::Integer) where T <: Integer
+function max_outneighbors(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where U <: Real
   nb = outneighbors(g, v)
-  w = weights(g)[v, nb]
-  nb[w .== maximum(w)]
+  wnb = w[v, nb]
+  nb[wnb .== maximum(wnb)]
 end
 
-max_outweight = function(g::SimpleWeightedDiGraph{T}, v::Integer) where T <: Integer
+function max_outweight(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where U <: Real
   nb = outneighbors(g, v)
   length(nb) > 0 || return 0
-  maximum(weights(g)[v, nb])
+  maximum(w[v, nb])
 end
 
-# ### Examples
-# """
-# main_path(g)                   # uses ForwardLocal and starts at maxlocal
-# main_path(g, 1)                # uses ForwardLocal and starts at vertex 1
-# main_path(g, 1, BackwardLocal())  # uses BackwardLocal and starts vertex 1
-# """
-# ###
 
-abstract type MainPathAlgorithm end
+abstract type MainPathAlgorithm <: LGS.AbstractGraphAlgorithm end
+abstract type MainPathResult <: LGS.AbstractGraphResult end
 
-main_path(g::SimpleWeightedDiGraph{T, U}, s::Integer, alg::MainPathAlgorithm) where T <: Integer where U <: Real = main_path(g, s, alg)
-
+function main_path end
 
 include("forward_local.jl")
+include("standard_global.jl")

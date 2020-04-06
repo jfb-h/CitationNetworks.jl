@@ -1,6 +1,6 @@
 
-get_sources(g::T) where T <: AbstractGraph = vertices(g)[indegree(g) .== 0]
-get_sinks(g::T)  where T <: AbstractGraph = vertices(g)[outdegree(g) .== 0]
+get_sources(g::AbstractGraph{T}) where T <: Integer = vertices(g)[indegree(g) .== 0]
+get_sinks(g::AbstractGraph{T})  where T <: Integer = vertices(g)[outdegree(g) .== 0]
 
 add_weights = function(g::SimpleDiGraph{T}, weights::Vector{U}) where T <: Integer where U <: Real
     from = [src(e) for e in edges(g)]
@@ -52,18 +52,20 @@ compute_weights_spc = function(g::SimpleDiGraph{T}; normalize = false) where T <
     st = vseqt[[1, end]]
     N_m = N⁻(g, vseqt)
     N_p = N⁺(g, vseqt)
-    total = N_p[st[1]] * N_m[st[2]]
+    tf = N_p[st[1]]
     idx = [!(v in st) for v in vertices(g)]
 
     rem_vertices!(g, st)
     N_m = N_m[idx]
     N_p = N_p[idx]
-    val = zeros(ne(g))
+
+    vw = N_m .* N_p
+    ew = zeros(ne(g))
 
     for (i, e) in enumerate(edges(g))
-        val[i] = N_m[src(e)] * N_p[dst(e)]
+        ew[i] = N_m[src(e)] * N_p[dst(e)]
     end
 
-    normalize && return val ./ total
-    return (val = val, total = total)
+    normalize && return (edgeweights = ew ./ tf, vertexweights = vw ./ tf, totalflow = tf)
+    return (edgeweights = ew, vertexweights = vw, totalflow = tf)
 end

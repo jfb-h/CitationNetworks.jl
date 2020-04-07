@@ -58,7 +58,6 @@ compute_weights_spc = function(g::SimpleDiGraph{T}; normalize = false) where T <
     rem_vertices!(g, st)
     N_m = N_m[idx]
     N_p = N_p[idx]
-
     vw = N_m .* N_p
     ew = zeros(ne(g))
 

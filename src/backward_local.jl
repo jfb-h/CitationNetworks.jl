@@ -1,29 +1,29 @@
 
-struct ForwardLocal <: MainPathAlgorithm end
+struct BackwardLocal <: MainPathAlgorithm end
 
-struct ForwardLocalResult{T<:Integer, U<:Real} <: MainPathResult
+struct BackwardLocalResult{T<:Integer, U<:Real} <: MainPathResult
   edges::Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}
   weights::Vector{U}
 end
 
-function forward_local(
+function backward_local(
   g::AbstractGraph{T},
   s::Vector{R},
   weights::AbstractMatrix{U}
   ) where {T,R <: Integer} where U <: Real
 
-  sink = ifelse.(outdegree(g) .== 0, true, false)
+  source = ifelse.(indegree(g) .== 0, true, false)
   visited = falses(nv(g))
   S = copy(s)
   mp_e = Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}()
 
-  while !all(sink[S])
+  while !all(source[S])
     next = Vector{T}()
     for u in S
-      (sink[u] || visited[u]) && continue
-      maxnb = max_outneighbors(g, u, weights)
+      (source[u] || visited[u]) && continue
+      maxnb = max_inneighbors(g, u, weights)
       append!(next, maxnb)
-      [push!(mp_e, Edge(u, nb)) for nb in maxnb]
+      [push!(mp_e, Edge(nb, u)) for nb in maxnb]
       visited[u] = true
     end
     S = next
@@ -32,46 +32,46 @@ function forward_local(
   from = src.(mp_e)
   to = dst.(mp_e)
   w_e = [weights[s,t] for (s, t) in zip(from, to)]
-  return ForwardLocalResult(mp_e, w_e)
+  return BackwardLocalResult(mp_e, w_e)
 end
 
 function main_path(
   g::AbstractGraph{T},
   s::AbstractVector{S},
   weights::AbstractMatrix{U},
-  ::ForwardLocal
+  ::BackwardLocal
   ) where {S, T <: Integer} where U <: Real
 
-  return forward_local(g, s, weights)
+  return backward_local(g, s, weights)
 end
 
 function main_path(
   g::AbstractGraph{T},
   s::AbstractVector{S},
-  ::ForwardLocal
+  ::BackwardLocal
   ) where {S, T <: Integer} where U <: Real
 
-  return forward_local(g, s, weights(g))
+  return backward_local(g, s, weights(g))
 end
 
 function main_path(
   g::AbstractGraph{T},
-  s::U,
-  ::ForwardLocal
-  ) where {T, U <: Integer}
+  s::Integer,
+  ::BackwardLocal
+  ) where {T <: Integer}
 
-   return forward_local(g, [s], weights(g))
+   return backward_local(g, [s], weights(g))
  end
 
 function main_path(
   g::AbstractGraph{T},
-  ::ForwardLocal
-  ) where T <: Integer
+  ::BackwardLocal
+  ) where T <: Integer where U <: Real
 
   w = weights(g)
-  sources = get_sources(g)
-  sweights = [max_outweight(g, v, w) for v in sources]
-  s = sources[sweights .== maximum(sweights)]
+  sinks = get_sinks(g)
+  sweights = [max_inweight(g, v, w) for v in sinks]
+  s = sinks[sweights .== maximum(sweights)]
 
-  return forward_local(g, s, w)
+  return backward_local(g, s, w)
 end

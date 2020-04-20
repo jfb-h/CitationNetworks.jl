@@ -2,7 +2,7 @@
 struct ForwardLocal <: MainPathAlgorithm end
 
 struct ForwardLocalResult{T<:Integer, U<:Real} <: MainPathResult
-  edges::Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}
+  edges::Vector{Edge{T}}
   weights::Vector{U}
 end
 
@@ -15,7 +15,7 @@ function forward_local(
   sink = ifelse.(outdegree(g) .== 0, true, false)
   visited = falses(nv(g))
   S = copy(s)
-  mp_e = Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}()
+  mp_e = Vector{Edge{T}}()
 
   while !all(sink[S])
     next = Vector{T}()

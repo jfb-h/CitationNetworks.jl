@@ -2,7 +2,7 @@
 struct BackwardLocal <: MainPathAlgorithm end
 
 struct BackwardLocalResult{T<:Integer, U<:Real} <: MainPathResult
-  edges::Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}
+  edges::Vector{Edge{T}}
   weights::Vector{U}
 end
 
@@ -15,7 +15,7 @@ function backward_local(
   source = ifelse.(indegree(g) .== 0, true, false)
   visited = falses(nv(g))
   S = copy(s)
-  mp_e = Vector{LightGraphs.SimpleGraphs.SimpleEdge{T}}()
+  mp_e = Vector{Edge{T}}()
 
   while !all(source[S])
     next = Vector{T}()

@@ -45,7 +45,8 @@ N⁺ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
     return val
 end
 
-compute_weights_spc = function(g::SimpleDiGraph{T}; normalize = false) where T <: Integer
+compute_weights_spc = function(g::AbstractGraph{T}; normalize = false) where T <: Integer
+    g = SimpleDiGraph(g)
     add_source_target!(g)
     vseqt = LightGraphs.Traversals.topological_sort(g)
 

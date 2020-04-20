@@ -48,17 +48,12 @@ lfmp3 = main_path(mg, [1,2])   # start at vertices 1 and 2
 
 set_mp_prop!(mg, lfmp1, :lfmp)
 
-lbmp1 = main_path(mg, BackwardLocal())           # start at sink(s) with max incoming
+lbmp1 = main_path(mg, BackwardLocal())            # start at sink(s) with max incoming
 lbmp2 = main_path(mg, 10, BackwardLocal())        # start at vertex 10
 lbmp3 = main_path(mg, [10,7], BackwardLocal())    # start at vertices 1 and 2
 
 set_mp_prop!(mg, lbmp1, :lbmp)
 
-
-# using GraphPlot, Colors
-# gplot(gmp, nodelabel = 1:nv(gmp), edgelabel = mp3.weights,
-# nodefillc = colorant"orange", nodestrokec = colorant"white",
-#  edgelabelc = colorant"white", edgelabelsize = 10)
 
 spc_true = [3, 3, 4, 4, 2, 2, 1, 1, 2, 2, 1, 1]
 

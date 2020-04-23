@@ -1,28 +1,4 @@
 
-get_sources(g::AbstractGraph{T}) where T <: Integer = vertices(g)[indegree(g) .== 0]
-get_sinks(g::AbstractGraph{T})  where T <: Integer = vertices(g)[outdegree(g) .== 0]
-
-add_weights = function(g::SimpleDiGraph{T}, weights::Vector{U}) where T <: Integer where U <: Real
-    from = [src(e) for e in edges(g)]
-    to = [dst(e) for e in edges(g)]
-    SimpleWeightedDiGraph(from, to, weights)
-end
-
-add_source_target! = function(g::SimpleDiGraph{T}) where T <: Integer
-    sinks = get_sinks(g)
-    sources = get_sources(g)
-
-    add_vertex!(g)
-    for source in sources
-        add_edge!(g, vertices(g)[end], source)
-    end
-
-    add_vertex!(g)
-    for sink in sinks
-        add_edge!(g, sink, vertices(g)[end])
-    end
-end
-
 N⁻ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
     nV = length(vseqt)
     val = zeros(nV)

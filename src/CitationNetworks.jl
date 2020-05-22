@@ -1,6 +1,7 @@
 module CitationNetworks
 
 using LightGraphs#master
+using LightGraphs.SimpleGraphs
 using LightGraphs.Traversals
 using LightGraphs.Traversals: TraversalState, TraversalAlgorithm, BreadthFirst, traverse_graph!, topological_sort
 import LightGraphs.Traversals: newvisitfn!, revisitfn!
@@ -29,7 +30,8 @@ add_source_target! = function(g::AbstractGraph{T}) where T <: Integer
 end
 
 include("compute_weights.jl")
-include("find_paths.jl")
+include("mainpath_local.jl")
+include("mainpath_global.jl")
 include("convenience.jl")
 
 export compute_weights_spc, add_weights, set_mp_prop!,

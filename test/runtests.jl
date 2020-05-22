@@ -1,5 +1,6 @@
 using CitationNetworks
 using LightGraphs#master
+using LightGraphs.SimpleGraphs
 using DataFrames
 using SimpleWeightedGraphs, MetaGraphs, GraphDataFrameBridge
 using Test

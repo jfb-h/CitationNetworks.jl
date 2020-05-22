@@ -40,7 +40,7 @@ function main_path(
   s::AbstractVector{S},
   weights::AbstractMatrix{U},
   ::BackwardLocal
-  ) where {S, T <: Integer} where U <: Real
+  ) where {S, T <: Integer} where {U <: Real}
 
   return backward_local(g, s, weights)
 end
@@ -49,7 +49,7 @@ function main_path(
   g::AbstractGraph{T},
   s::AbstractVector{S},
   ::BackwardLocal
-  ) where {S, T <: Integer} where U <: Real
+  ) where {S, T <: Integer}
 
   return backward_local(g, s, weights(g))
 end
@@ -66,7 +66,7 @@ function main_path(
 function main_path(
   g::AbstractGraph{T},
   ::BackwardLocal
-  ) where T <: Integer where U <: Real
+  ) where {T <: Integer}
 
   w = weights(g)
   sinks = get_sinks(g)

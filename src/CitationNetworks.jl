@@ -30,8 +30,8 @@ add_source_target! = function(g::AbstractGraph{T}) where T <: Integer
 end
 
 include("compute_weights.jl")
-include("mainpath_local.jl")
 include("mainpath_global.jl")
+include("mainpath_local.jl")
 include("convenience.jl")
 
 export compute_weights_spc, add_weights, set_mp_prop!,

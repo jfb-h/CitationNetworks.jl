@@ -49,7 +49,7 @@ function main_path(
   g::AbstractGraph{T},
   s::AbstractVector{S},
   ::ForwardLocal
-  ) where {S, T <: Integer} where U <: Real
+  ) where {S, T <: Integer}
 
   return forward_local(g, s, weights(g))
 end

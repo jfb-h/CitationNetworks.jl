@@ -7,4 +7,4 @@
 
 This package implements methods for analysing citation networks, such as citations among academic papers or patents, in the Julia language. It builds heavily on the amazing [LightGraphs](https://github.com/JuliaGraphs/LightGraphs.jl) package. Current functionality mostly includes methods for main path analysis, and only a subset of those: SPC traversal weights, forward & backward local main paths and global main paths.
 
-This package is a an alpha state, so expect things to not work and frequent changes.
+This package is in an alpha state, so expect things to not work and frequent changes.

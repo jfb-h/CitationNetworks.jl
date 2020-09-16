@@ -42,9 +42,9 @@ mg = MetaDiGraph(eldf, :from, :to, weight = :weight)
 end
 
 @testset "local forward main path" begin
-    flmp1 = main_path(mg, ForwardLocal())
-    flmp2 = main_path(mg, 1, ForwardLocal())
-    flmp3 = main_path(mg, [1,2], weights(g), ForwardLocal())
+    flmp1 = mainpath(mg, ForwardLocal())
+    flmp2 = mainpath(mg, 1, ForwardLocal())
+    flmp3 = mainpath(mg, [1,2], weights(g), ForwardLocal())
 
     set_mp_prop!(mg, flmp1, :flmp)
 
@@ -55,14 +55,14 @@ end
     @test [get_prop(mg, e, :flmp) for e in edges(mg)] == edges_on_flmp_true
     @test flmp1.weights == flmp_weights_true
     @test collect(filter_vertices(mg, :flmp, true)) == flmp_true
-    @test main_path(mg, 1, ForwardLocal()).weights == [3, 4, 2, 2]
+    @test mainpath(mg, 1, ForwardLocal()).weights == [3, 4, 2, 2]
 end
 
 @testset "local backward main path" begin
 
-    blmp1 = main_path(mg, BackwardLocal())
-    blmp2 = main_path(mg, 10, BackwardLocal())
-    blmp3 = main_path(mg, [10, 7], weights(mg), BackwardLocal())
+    blmp1 = mainpath(mg, BackwardLocal())
+    blmp2 = mainpath(mg, 10, BackwardLocal())
+    blmp3 = mainpath(mg, [10, 7], weights(mg), BackwardLocal())
 
     set_mp_prop!(mg, blmp1, :blmp)
 
@@ -73,12 +73,12 @@ end
     @test [get_prop(mg, e, :blmp) for e in edges(mg)] == edges_on_blmp_true
     @test blmp1.weights == blmp_weights_true
     @test collect(filter_vertices(mg, :blmp, true)) == blmp_true
-    @test main_path(mg, 7, BackwardLocal()).weights == [2, 3, 3]
+    @test mainpath(mg, 7, BackwardLocal()).weights == [2, 3, 3]
 end
 
 @testset "standard global main path" begin
 
-    sgmp1 = main_path(mg, StandardGlobal())
+    sgmp1 = mainpath(mg, StandardGlobal())
 
     set_mp_prop!(mg, sgmp1, :sgmp)
 

@@ -27,7 +27,7 @@ struct ForwardLocalResult{T<:Integer, U<:Real} <: MainPathResult
     totalweight::U
 end
 
-function main_path(
+function mainpath(
     g::AbstractGraph{T},
     s,
     weights::AbstractMatrix{U},
@@ -41,9 +41,9 @@ function main_path(
     return ForwardLocalResult(state.edges, w, sum(w))
 end
 
-main_path(g::AbstractGraph{T}, s, ::ForwardLocal) where T <: Integer = main_path(g, s, weights(g), ForwardLocal())
+mainpath(g::AbstractGraph{T}, s, ::ForwardLocal) where T <: Integer = mainpath(g, s, weights(g), ForwardLocal())
 
-function main_path(
+function mainpath(
     g::AbstractGraph{T},
     weights::AbstractMatrix{U},
     ::ForwardLocal) where T <: Integer where U <: Real
@@ -52,10 +52,10 @@ function main_path(
     sweights = [max_outweight(g, v, weights) for v in sources]
     s = sources[sweights .== maximum(sweights)]
 
-    main_path(g, s, weights, ForwardLocal())
+    mainpath(g, s, weights, ForwardLocal())
 end
 
-main_path(g::AbstractGraph{T}, ::ForwardLocal) where T <: Integer = main_path(g, weights(g), ForwardLocal())
+mainpath(g::AbstractGraph{T}, ::ForwardLocal) where T <: Integer = mainpath(g, weights(g), ForwardLocal())
 
 
 ###########################
@@ -69,7 +69,7 @@ struct BackwardLocalResult{T<:Integer, U<:Real} <: MainPathResult
     totalweight::U
 end
 
-function main_path(
+function mainpath(
     g::AbstractGraph{T},
     s,
     weights::AbstractMatrix{U},
@@ -84,9 +84,9 @@ function main_path(
     return BackwardLocalResult(state.edges, w, sum(w))
 end
 
-main_path(g::AbstractGraph{T}, s, ::BackwardLocal) where T <: Integer = main_path(g, s, weights(g), BackwardLocal())
+mainpath(g::AbstractGraph{T}, s, ::BackwardLocal) where T <: Integer = mainpath(g, s, weights(g), BackwardLocal())
 
-function main_path(
+function mainpath(
     g::AbstractGraph{T},
     weights::AbstractMatrix{U},
     ::BackwardLocal) where T <: Integer where U <: Real
@@ -95,7 +95,7 @@ function main_path(
     sweights = [max_inweight(g, v, weights) for v in sinks]
     s = sinks[sweights .== maximum(sweights)]
 
-    main_path(g, s, weights, BackwardLocal())
+    mainpath(g, s, weights, BackwardLocal())
 end
 
-main_path(g::AbstractGraph{T}, ::BackwardLocal) where T <: Integer = main_path(g, weights(g), BackwardLocal())
+mainpath(g::AbstractGraph{T}, ::BackwardLocal) where T <: Integer = mainpath(g, weights(g), BackwardLocal())

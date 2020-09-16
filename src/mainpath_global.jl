@@ -18,9 +18,9 @@ end
 max_inneighbors(g::AbstractMetaGraph, v::Integer) = max_inneighbors(g, v, weights(g))
 
 function max_outweight(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
-nb = outneighbors(g, v)
-length(nb) > 0 || return 0
-maximum(w[v, nb])
+    nb = outneighbors(g, v)
+    length(nb) > 0 || return 0
+    maximum(w[v, nb])
 end
 
 function max_inweight(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
@@ -40,7 +40,7 @@ struct StandardGlobalResult{T<:Integer, U<:Real} <: MainPathResult
     totalweight::U
 end
 
-function main_path(
+function mainpath(
     g::AbstractGraph{T},
     weights::AbstractMatrix{U},
     ::StandardGlobal) where T <: Integer where U <: Real
@@ -100,4 +100,4 @@ function main_path(
     return StandardGlobalResult(edgesmp, w, sum(w))
 end
 
-main_path(g::AbstractGraph{T}, ::StandardGlobal) where {T <: Integer} = main_path(g, weights(g), StandardGlobal())
+mainpath(g::AbstractGraph{T}, ::StandardGlobal) where {T <: Integer} = mainpath(g, weights(g), StandardGlobal())

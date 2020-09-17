@@ -1,21 +1,21 @@
 
-function max_outneighbors(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
+function emax_outneighbors(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
     nb = outneighbors(g, v)
     wnb = w[v, nb]
     length(nb) == 0 && return nb
     nb[wnb .== maximum(wnb)]
 end
   
-max_outneighbors(g::AbstractMetaGraph, v::Integer) = max_outneighbors(g, v, weights(g))
+emax_outneighbors(g::AbstractMetaGraph, v::Integer) = emax_outneighbors(g, v, weights(g))
   
-function max_inneighbors(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
+function emax_inneighbors(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
     nb = inneighbors(g, v)
     wnb = w[nb, v]
     length(nb) == 0 && return nb
     nb[wnb .== maximum(wnb)]
 end
   
-max_inneighbors(g::AbstractMetaGraph, v::Integer) = max_inneighbors(g, v, weights(g))
+emax_inneighbors(g::AbstractMetaGraph, v::Integer) = emax_inneighbors(g, v, weights(g))
 
 function max_outweight(g::AbstractGraph{T}, v::S, w::AbstractMatrix{U}) where {S,T <: Integer} where {U <: Real}
     nb = outneighbors(g, v)

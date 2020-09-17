@@ -17,29 +17,31 @@ add_source_target! = function(g::AbstractGraph{T}) where T <: Integer
     end
 end
 
-N⁻ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
-    nV = length(vseqt)
-    val = zeros(nV)
-    val[vseqt[1]] = 1.0
-    for v in vseqt
-        nb = outneighbors(g, v)
-        val[nb] .+= val[v]
-    end
-    return val
-end
-
-N⁺ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
-    nV = length(vseqt)
-    val = zeros(nV)
-    val[vseqt[nV]] = 1.0
-    for v in reverse(vseqt)
-        nb = inneighbors(g, v)
-        val[nb] .+= val[v]
-    end
-    return val
-end
 
 compute_weights_spc = function(g::AbstractGraph{T}; normalize = false) where T <: Integer
+
+    N⁻ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
+        nV = length(vseqt)
+        val = zeros(nV)
+        val[vseqt[1]] = 1.0
+        for v in vseqt
+            nb = outneighbors(g, v)
+            val[nb] .+= val[v]
+        end
+        return val
+    end
+    
+    N⁺ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
+        nV = length(vseqt)
+        val = zeros(nV)
+        val[vseqt[nV]] = 1.0
+        for v in reverse(vseqt)
+            nb = inneighbors(g, v)
+            val[nb] .+= val[v]
+        end
+        return val
+    end
+
     g = SimpleDiGraph(g)
     add_source_target!(g)
     vseqt = LightGraphs.Traversals.topological_sort(g)

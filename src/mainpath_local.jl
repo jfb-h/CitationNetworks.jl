@@ -35,7 +35,7 @@ function mainpath(
 
     edges = Vector{SimpleEdge{T}}()
     state = MainPathState(edges)
-    traverse_graph!(g, s, BreadthFirst(neighborfn=max_outneighbors), state) # TODO max_outneighbors gets weights from the graph object not from the input matrix
+    traverse_graph!(g, s, BreadthFirst(neighborfn=emax_outneighbors), state) # TODO emax_outneighbors gets weights from the graph object not from the input matrix
     w = [weights[src(e), dst(e)] for e in state.edges]
 
     return ForwardLocalResult(state.edges, w, sum(w))
@@ -77,7 +77,7 @@ function mainpath(
 
     edges = Vector{SimpleEdge{T}}()
     state = MainPathState(edges)
-    traverse_graph!(g, s, BreadthFirst(neighborfn=max_inneighbors), state)
+    traverse_graph!(g, s, BreadthFirst(neighborfn=emax_inneighbors), state)
     state.edges = reverse.(state.edges)
     w = [weights[src(e), dst(e)] for e in state.edges]
 

@@ -2,7 +2,8 @@ using CitationNetworks
 using LightGraphs#master
 using LightGraphs.SimpleGraphs
 using DataFrames
-using SimpleWeightedGraphs, MetaGraphs, GraphDataFrameBridge
+using SimpleWeightedGraphs
+using MetaGraphs, GraphDataFrameBridge
 using Test
 
 A = [
@@ -20,6 +21,7 @@ A = [
 ]
 
 g = SimpleDiGraph(A)
+
 ew_spc, vw_spc, tf_spc = compute_weights_spc(g, normalize = false)
 
 # MetaDiGraph

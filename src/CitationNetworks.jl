@@ -18,7 +18,7 @@ include("mainpath_gbfp.jl")
 include("genetic_knowper.jl")
 include("convenience.jl")
 
-export compute_weights_spc, add_weights
+export weights_spc, add_weights
 export mainpath, ForwardLocal, BackwardLocal, StandardGlobal, GBFP
 export genetic_knowper
 export set_mp_prop!

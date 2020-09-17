@@ -18,7 +18,7 @@ add_source_target! = function(g::AbstractGraph{T}) where T <: Integer
 end
 
 
-compute_weights_spc = function(g::AbstractGraph{T}; normalize = false) where T <: Integer
+weights_spc = function(g::AbstractGraph{T}; normalize = false) where T <: Integer
 
     N⁻ = function(g::SimpleDiGraph{T}, vseqt::Vector{T}) where T <: Integer
         nV = length(vseqt)

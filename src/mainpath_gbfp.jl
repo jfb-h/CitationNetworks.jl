@@ -28,10 +28,11 @@ function mainpath(
     gkp = genetic_knowper(g, normalize=normalize)
     start = findall(gkp .>= cutoff)
 
-    edges = Vector{SimpleEdge{T}}()
-    state = MainPathState(edges)
-    traverse_graph!(g, start, BreadthFirst(neighborfn = (g, v) -> vmax_outneighbors(g, v, gkp)), state) 
-    traverse_graph!(g, start, BreadthFirst(neighborfn = (g, v) -> vmax_outneighbors(g, v, gkp)), state) 
+    forwardstate = MainPathState(Vector{SimpleEdge{T}}())
+    backwardstate = MainPathState(Vector{SimpleEdge{T}}())
+    traverse_graph!(g, start, BreadthFirst(neighborfn = (g, v) -> vmax_outneighbors(g, v, gkp)), forwardstate) 
+    traverse_graph!(g, start, BreadthFirst(neighborfn = (g, v) -> vmax_inneighbors(g, v, gkp)), backwardstate) 
 
-    return GBFPResult(state.edges)
+    combined = vcat(forwardstate.edges, reverse.(backwardstate.edges)) |> unique
+    return GBFPResult(combined)
 end

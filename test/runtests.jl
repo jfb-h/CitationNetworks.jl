@@ -22,7 +22,7 @@ A = [
 
 g = SimpleDiGraph(A)
 
-ew_spc, vw_spc, tf_spc = compute_weights_spc(g, normalize = false)
+ew_spc, vw_spc, tf_spc = weights_spc(g, normalize = false)
 
 # MetaDiGraph
 

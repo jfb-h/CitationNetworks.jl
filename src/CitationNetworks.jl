@@ -1,6 +1,6 @@
 module CitationNetworks
 
-using LightGraphs#master
+using LightGraphs
 using LightGraphs.SimpleGraphs
 using LightGraphs.Traversals
 using LightGraphs.Traversals: TraversalState, TraversalAlgorithm, BreadthFirst, traverse_graph!, topological_sort
@@ -18,8 +18,9 @@ include("mainpath_gbfp.jl")
 include("genetic_knowper.jl")
 include("convenience.jl")
 
-export weights_spc, add_weights
-export mainpath, ForwardLocal, BackwardLocal, StandardGlobal, GBFP
+export weights_spc
+export mainpath
+export ForwardLocal, BackwardLocal, StandardGlobal, GBFP
 export genetic_knowper
 export set_mp_prop!
 

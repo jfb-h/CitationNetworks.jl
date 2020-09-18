@@ -9,7 +9,9 @@ using LightGraphs.ShortestPaths
 using LightGraphs.ShortestPaths: AbstractGraphAlgorithm, AbstractGraphResult
 using MetaGraphs
 
-# change LG to 1.4 / 2.0 when available
+# change LG to 2.0 when available
+export compute_weights_spc, add_weights, set_mp_prop!,
+main_path, ForwardLocal, BackwardLocal, StandardGlobal
 
 include("weights_spc.jl")
 include("mainpath_global.jl")

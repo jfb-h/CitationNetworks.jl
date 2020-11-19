@@ -10,8 +10,6 @@ using LightGraphs.ShortestPaths: AbstractGraphAlgorithm, AbstractGraphResult
 using MetaGraphs
 
 # change LG to 2.0 when available
-export compute_weights_spc, add_weights, set_mp_prop!,
-main_path, ForwardLocal, BackwardLocal, StandardGlobal
 
 include("weights_spc.jl")
 include("mainpath_global.jl")
@@ -22,7 +20,7 @@ include("convenience.jl")
 
 export weights_spc
 export mainpath
-export ForwardLocal, BackwardLocal, StandardGlobal, GBFP
+export ForwardLocal, BackwardLocal, StandardGlobal, GBFP, FBMP
 export genetic_knowper
 export set_mp_prop!
 
